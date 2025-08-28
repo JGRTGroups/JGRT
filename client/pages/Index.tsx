@@ -52,8 +52,8 @@ export default function Index() {
               alt="JGRT Builders Logo"
               className="h-14 sm:h-16 lg:h-20 w-auto transform hover:scale-105 transition-transform duration-300"
             />
-            <div className="text-[#E6E8EE] font-encode text-sm sm:text-lg lg:text-xl font-bold">
-              JGRT BUILDERS
+            <div className="text-black font-encode text-sm sm:text-lg lg:text-xl font-bold">
+              JGRT GROUPS
             </div>
           </div>
 
@@ -117,7 +117,7 @@ export default function Index() {
         <div className="max-w-[1422px] mx-auto relative">
           <div className="relative min-h-[calc(100vh-200px)]">
             <div className="text-left lg:mb-12">
-              <h1 className={`text-4xl sm:text-6xl lg:text-8xl xl:text-[120px] 2xl:text-[200px] font-bold font-poppins leading-none text-white uppercase tracking-tight transform transition-all duration-1000 ${
+              <h1 className={`text-4xl sm:text-6xl lg:text-8xl xl:text-[120px] 2xl:text-[200px] font-bold font-poppins leading-none text-black uppercase tracking-tight transform transition-all duration-1000 ${
                 isVisible.hero ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
               }`}>
                 Welcome
@@ -128,7 +128,7 @@ export default function Index() {
               <div className={`space-y-6 lg:space-y-8 transform transition-all duration-1000 delay-300 ${
                 isVisible.hero ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'
               }`}>
-                <h1 className="text-4xl sm:text-6xl lg:text-8xl xl:text-[120px] 2xl:text-[200px] font-bold font-poppins leading-none text-white uppercase tracking-tight">
+                <h1 className="text-4xl sm:text-6xl lg:text-8xl xl:text-[120px] 2xl:text-[200px] font-bold font-poppins leading-none text-black uppercase tracking-tight">
                   to<br />JGRT
                 </h1>
 
@@ -169,7 +169,7 @@ export default function Index() {
             <div className={`space-y-6 lg:space-y-8 transform transition-all duration-1000 ${
               isVisible.founder ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'
             }`}>
-              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-medium font-poppins leading-tight">
+              <h2 className="text-black text-3xl sm:text-4xl lg:text-[44px] font-medium font-poppins leading-tight">
                 Founder &<br />Chairman's Speech
               </h2>
               
@@ -190,12 +190,12 @@ export default function Index() {
               isVisible.founder ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'
             }`}>
               <div className="space-y-4 lg:space-y-6">
-                <h3 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[71px] font-bold font-poppins leading-none text-white uppercase tracking-tight">
+                <h3 className="text-black text-3xl sm:text-4xl lg:text-5xl xl:text-[71px] font-bold font-poppins leading-none uppercase tracking-tight">
                   We don't just build projects, we build trust that lasts for generations.
                 </h3>
                 
                 <p className="text-black text-lg sm:text-xl font-poppins">
-                  With over two decades of excellence, JGRt Group stands committed to shaping spaces, empowering communities, and creating lasting value for our customers.
+                  With over two decades of excellence, JGRT Group stands committed to shaping spaces, empowering communities, and creating lasting value for our customers.
                 </p>
               </div>
 
@@ -209,7 +209,7 @@ export default function Index() {
                     isVisible.founder ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
                   }`} style={{transitionDelay: `${600 + index * 200}ms`}}>
                     <div className="text-4xl sm:text-5xl lg:text-[62px] font-bold font-poppins">
-                      <span className="text-white hover:text-blue-400 transition-colors duration-300">{stat.number} </span>
+                      <span className="text-white hover:text-black transition-colors duration-300">{stat.number} </span>
                       <span className="text-orange-500">+</span>
                     </div>
                     <p className="text-[#160101] text-lg sm:text-xl font-inter">{stat.label}</p>
@@ -235,7 +235,7 @@ export default function Index() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
               
               <div className="absolute bottom-8 sm:bottom-12 lg:bottom-16 left-1/2 transform -translate-x-1/2">
-                <h2 className="text-3xl sm:text-5xl lg:text-7xl xl:text-[111px] font-normal font-poppins text-white uppercase tracking-tight text-center hover:text-blue-400 transition-colors duration-300">
+                <h2 className="text-3xl sm:text-5xl lg:text-7xl xl:text-[111px] font-normal font-poppins text-white uppercase tracking-tight text-center hover:text-black transition-colors duration-300">
                   Dream House
                 </h2>
               </div>
@@ -396,7 +396,7 @@ export default function Index() {
 
       <section id="buildtogether" className="px-4 sm:px-6 lg:px-20 py-12 lg:py-20">
         <div className="max-w-[1422px] mx-auto text-center">
-          <h2 className={`text-4xl sm:text-6xl lg:text-8xl xl:text-[133px] font-medium font-poppins uppercase tracking-tight text-white mb-12 lg:mb-16 transform transition-all duration-1000 ${
+          <h2 className={`text-black text-4xl sm:text-6xl lg:text-8xl xl:text-[133px] font-medium font-poppins uppercase tracking-tight mb-12 lg:mb-16 transform transition-all duration-1000 ${
             isVisible.buildtogether ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
           }`}>
             Let's Build Together
@@ -436,10 +436,10 @@ export default function Index() {
           }`}>
             <div className="space-y-4">
               <div className="w-12 sm:w-16 h-12 sm:h-16 mx-auto"></div>
-              <h3 className="text-lg sm:text-xl font-bold font-encode text-white">JGRT BUILDERS</h3>
+              <h3 className="text-lg sm:text-xl font-bold font-encode text-black">JGRT GROUPS</h3>
             </div>
             
-            <p className="text-white text-xl sm:text-2xl font-poppins max-w-2xl mx-auto">
+            <p className="text-black text-xl sm:text-2xl font-poppins max-w-2xl mx-auto">
               We don't just create buildings, we create legacies that stand the test of time.
             </p>
             
@@ -463,7 +463,7 @@ export default function Index() {
                 <a 
                   key={index} 
                   href="#" 
-                  className={`w-5 sm:w-6 h-5 sm:h-6 text-[#EDEDED] hover:text-white hover:scale-125 transition-all duration-300 transform ${
+                  className={`w-5 sm:w-6 h-5 sm:h-6 text-black hover:text-white hover:scale-125 transition-all duration-300 transform ${
                     isVisible.footer ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
                   }`}
                   style={{transitionDelay: `${500 + index * 100}ms`}}
@@ -479,7 +479,7 @@ export default function Index() {
                   <div key={link} className="flex items-center gap-4 sm:gap-6 lg:gap-8 xl:gap-16">
                     <a 
                       href="#" 
-                      className={`hover:text-blue-400 transform hover:scale-105 transition-all duration-300 ${
+                      className={`text-black transform hover:scale-105 transition-all duration-300 ${
                         isVisible.footer ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
                       }`}
                       style={{transitionDelay: `${700 + index * 100}ms`}}
@@ -497,7 +497,7 @@ export default function Index() {
             <div className={`text-black text-sm pt-6 transform transition-all duration-1000 delay-1200 ${
               isVisible.footer ? 'translate-y-0 opacity-100' : 'translate-y-5 opacity-0'
             }`}>
-              <p>© 2024 JGRT Builders. All rights reserved.</p>
+              <p>© 2024 JGRT Groups. All rights reserved.</p>
             </div>
           </div>
         </div>
