@@ -6,7 +6,10 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./client"),
+      "@": path.resolve(path.dirname(new URL(import.meta.url).pathname), "./client"),
     },
+  },
+  build: {
+    outDir: "dist/spa",
   },
 })
