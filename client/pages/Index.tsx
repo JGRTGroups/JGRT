@@ -1,7 +1,10 @@
+import ContactUs from "@/components/ui/contactus";
+import FloatingCalculator from "@/components/ui/floatingcalculator";
 import { ChevronDown, Play, ArrowRight, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function Index() {
+  const [isMinimized, setIsMinimized] = useState<boolean>(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState({
@@ -41,42 +44,37 @@ export default function Index() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#87CEEB] text-white overflow-x-hidden">
-      <header className={`fixed top-0 w-full z-50 px-4 sm:px-6 lg:px-20 py-4 lg:py-8 transition-all duration-500 ${
-        scrollY > 50 ? 'bg-[#345766] backdrop-blur-md py-4' : 'bg-transparent'
+    <div className="min-h-screen bg-[#84C4FF] text-white overflow-x-hidden">
+      {!isMinimized && <FloatingCalculator isMinimized={isMinimized} setIsMinimized={setIsMinimized}/>}
+      <header className={`fixed top-0 w-full z-50 px-4 sm:px-6 lg:px-20 py-1 lg:py-4 transition-all duration-500 ${
+        scrollY > 50 ? 'bg-opacity-35 backdrop-blur-md py-1' : 'bg-transparent'
       }`}>
         <div className="max-w-[1422px] mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2 lg:gap-3 animate-fade-in">
+          <div className="flex items-center animate-fade-in">
             <img
               src="/logo.png"
               alt="JGRT Builders Logo"
-              className="h-14 sm:h-16 lg:h-20 w-auto transform hover:scale-105 transition-transform duration-300"
+              className="h-16 sm:h-18 lg:h-24 w-auto transform hover:scale-105 transition-transform duration-300"
             />
             <div className="text-black font-encode text-sm sm:text-lg lg:text-xl font-bold">
-              JGRT GROUPS
+              JGRT GROUP
             </div>
           </div>
 
-          <nav className="hidden xl:flex items-center bg-[#E6E8EE] rounded-full px-2 py-2 animate-slide-down">
+          <nav className="hidden xl:flex items-center bg-[#E6E8EE] rounded-full px-2 py-2 animate-slide-down xl:mr-40">
             <a href="#hero" className="flex items-center px-4 lg:px-6 py-3 text-black hover:bg-black hover:text-white rounded-full transform hover:scale-105 transition-all duration-500 ease-in-out">
               Home
             </a>
             <a href="#properties" className="flex items-center px-4 lg:px-6 py-3 text-black hover:bg-black hover:text-white rounded-full transition-all duration-500 ease-in-out">
               Properties
             </a>
-            <div className="flex items-center px-3 lg:px-4 py-3 text-black hover:bg-black hover:text-white rounded-full cursor-pointer transition-all duration-500 ease-in-out">
-              <span>Buy</span>
-              <ChevronDown className="ml-1 w-4 h-4 transform hover:rotate-180 transition-transform duration-300" />
-            </div>
-            <div className="flex items-center px-3 lg:px-4 py-3 text-black hover:bg-black hover:text-white rounded-full cursor-pointer transition-all duration-500 ease-in-out">
-              <span>Warehousing</span>
-              <ChevronDown className="ml-1 w-4 h-4 transform hover:rotate-180 transition-transform duration-300" />
+            <div className="flex items-center px-3 lg:px-4 py-3 text-black hover:bg-black hover:text-white rounded-full cursor-pointer transition-all duration-500 ease-in-out" onClick={() => setIsMinimized(!isMinimized)}>
+              <span>Calculate</span>
             </div>
             <a href="#" className="px-4 lg:px-6 py-3 text-black hover:bg-black hover:text-white rounded-full transition-all duration-500 ease-in-out">Contact</a>
           </nav>
 
-          <div className="hidden lg:flex items-center bg-[#E6E8EE] rounded-full px-2 py-2 animate-slide-down">
-            <a href="#" className="px-4 lg:px-6 py-3 text-black hover:bg-gray-100 rounded-full transition-all duration-300">Login</a>
+          <div className="hidden xl:flex items-center bg-[#E6E8EE] rounded-full px-2 py-2 animate-slide-down">
             <a href="#" className="px-4 lg:px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transform hover:scale-105 transition-all duration-300">FAQ</a>
           </div>
 
@@ -84,21 +82,19 @@ export default function Index() {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="xl:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-colors duration-300"
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMenuOpen ? <X size={30} /> : <Menu size={30} />}
           </button>
         </div>
 
-        <div className={`xl:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-md border-t border-white/10 transition-all duration-300 ${
+        <div className={`xl:hidden absolute top-full left-0 w-full backdrop-blur-md border-t border-white/10 transition-all duration-300 ${
           isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}>
           <nav className="px-4 py-6 space-y-4">
-            <a href="#" className="block px-4 py-3 bg-white text-black rounded-lg font-medium">Home</a>
-            <a href="#" className="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors">Properties</a>
-            <a href="#" className="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors">Buy</a>
-            <a href="#" className="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors">Warehousing</a>
-            <a href="#" className="block px-4 py-3 text-white hover:bg-white/10 rounded-lg transition-colors">Contact</a>
+            <a href="#hero" className="block px-4 py-3 bg-white text-black rounded-lg font-medium">Home</a>
+            <a href="#properties" className="block px-4 py-3 bg-white text-black rounded-lg transition-colors">Properties</a>
+            <a onClick={() => setIsMinimized(!isMinimized)} className="block px-4 py-3 bg-white text-black rounded-lg transition-colors">Calculate</a>
+            <a href="#" className="block px-4 py-3 bg-white text-black rounded-lg transition-colors">Contact</a>
             <div className="pt-4 border-t border-white/10 flex gap-4">
-              <a href="#" className="flex-1 px-4 py-3 text-white hover:bg-white/10 rounded-lg text-center transition-colors">Login</a>
               <a href="#" className="flex-1 px-4 py-3 bg-blue-500 text-white rounded-lg text-center hover:bg-blue-600 transition-colors">FAQ</a>
             </div>
           </nav>
@@ -116,20 +112,22 @@ export default function Index() {
 
         <div className="max-w-[1422px] mx-auto relative">
           <div className="relative min-h-[calc(100vh-200px)]">
-            <div className="text-left lg:mb-12">
-              <h1 className={`text-4xl sm:text-6xl lg:text-8xl xl:text-[120px] 2xl:text-[200px] font-bold font-poppins leading-none text-black uppercase tracking-tight transform transition-all duration-1000 ${
-                isVisible.hero ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-              }`}>
-                Welcome
+            <div className="relative inline-block overflow-hidden">
+              <h1
+                className={`bg-clip-text text-4xl sm:text-6xl lg:text-8xl xl:text-[120px] 2xl:text-[200px]
+                            font-bold font-poppins leading-none text-transparent uppercase tracking-tight
+                            transform transition-all duration-1000 bg-[linear-gradient(124deg,#000_51.38%,rgba(255,255,255,0)_110.75%)]
+                            ${isVisible.hero ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
+              >
+                Welcome to
               </h1>
-            </div>
-
+          </div>
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div className={`space-y-6 lg:space-y-8 transform transition-all duration-1000 delay-300 ${
                 isVisible.hero ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'
               }`}>
                 <h1 className="text-4xl sm:text-6xl lg:text-8xl xl:text-[120px] 2xl:text-[200px] font-bold font-poppins leading-none text-black uppercase tracking-tight">
-                  to<br />JGRT
+                  JGRT
                 </h1>
 
                 <p className="text-black text-base sm:text-lg lg:text-xl max-w-md font-inter leading-relaxed">
@@ -146,7 +144,7 @@ export default function Index() {
               }`}>
                 <div className="relative w-full aspect-[4/3] rounded-[100px] lg:rounded-[200px] xl:rounded-[300px] border border-white overflow-hidden bg-white/90 group hover:scale-105 transition-all duration-500">
                   <img
-                    src="/housewithpool.png"
+                    src="/apartmentwithplants.jpg"
                     alt="Modern house with pool"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
@@ -228,23 +226,23 @@ export default function Index() {
           }`}>
             <div className="relative w-full aspect-[16/9] sm:aspect-[2/1] lg:aspect-[2.4/1] rounded-[50px] sm:rounded-[100px] lg:rounded-[200px] xl:rounded-[300px] border border-white overflow-hidden bg-white/90 group hover:scale-105 transition-all duration-700">
               <img 
-                src="/housewithwoodendeck.png"
+                src="/dreamhouse.jpg"
                 alt="Backyard with wooden deck"
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
               
               <div className="absolute bottom-8 sm:bottom-12 lg:bottom-16 left-1/2 transform -translate-x-1/2">
-                <h2 className="text-3xl sm:text-5xl lg:text-7xl xl:text-[111px] font-normal font-poppins text-white uppercase tracking-tight text-center hover:text-black transition-colors duration-300">
+                <h2 className="text-3xl sm:text-5xl lg:text-7xl xl:text-[111px] font-normal font-poppins text-white uppercase tracking-tight text-center">
                   Dream House
                 </h2>
               </div>
               
-              <div className="absolute bottom-8 sm:bottom-12 lg:bottom-16 right-8 sm:right-12 lg:right-16">
+              {/* <div className="absolute bottom-8 sm:bottom-12 lg:bottom-16 right-8 sm:right-12 lg:right-16">
                 <div className="w-16 sm:w-20 lg:w-28 h-16 sm:h-20 lg:h-28 bg-white rounded-full flex items-center justify-center shadow-2xl hover:bg-blue-500 hover:text-white transform hover:scale-110 hover:rotate-180 transition-all duration-500 cursor-pointer">
                   <Play className="w-8 sm:w-12 lg:w-16 h-8 sm:h-12 lg:h-16 text-black ml-1 sm:ml-2" fill="currentColor" />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -270,16 +268,16 @@ export default function Index() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12 lg:mb-16">
               {[
-                { name: 'Kamakshinagar', location: 'Mangad', area: '3.5 Acre', units: '1', rate: '3500/-Sqft', plotSizes: '600-1500' },
+                { name: 'Kamakshinagar', location: 'Mangadu', area: '3.5 Acre', units: '1', rate: '3500/-Sqft', plotSizes: '600-1500' },
                 { name: 'Parvathinagar', location: 'Kozhimahikaram', area: '1 Acre', units: 'N/A', rate: '3200/-Sqft', plotSizes: '650-1100' },
-                { name: 'Mahalakshminagar', location: 'Mangad Main Road', area: '2 Acre', units: '30', rate: 'N/A', plotSizes: '1200-2400' }
+                { name: 'Mahalakshminagar', location: 'Mangadu Main Road', area: '2 Acre', units: '30', rate: 'N/A', plotSizes: '1200-2400' }
               ].map((property, index) => (
                 <div key={index} className={`space-y-6 transform transition-all duration-1000 hover:scale-105 ${
                   isVisible.properties ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                 }`} style={{transitionDelay: `${300 + index * 200}ms`}}>
                   <div className="aspect-[4/3] rounded-[40px] lg:rounded-[80px] overflow-hidden group">
                     <img 
-                      src="/villawithpool.png"
+                      src="/house.jpg"
                       alt="Modern villa with pool"
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
@@ -351,7 +349,7 @@ export default function Index() {
                   Your Vision, Our Foundation
                 </h3>
                 
-                <p className="text-black text-lg sm:text-xl font-poppins max-w-md">
+                <p className="text-white text-lg sm:text-xl font-poppins max-w-md">
                   At JGRT Group, we don't just build structures — we build lasting relationships by turning your dreams into enduring landmarks
                 </p>
                 
@@ -367,7 +365,7 @@ export default function Index() {
               <div className="relative z-10">
                 <div className="w-full aspect-square rounded-full border border-white overflow-hidden group hover:scale-105 transition-all duration-500">
                   <img 
-                    src="/modernkitchen.png" 
+                    src="/housewithcar.jpg" 
                     alt="Modern kitchen"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
@@ -396,32 +394,37 @@ export default function Index() {
 
       <section id="buildtogether" className="px-4 sm:px-6 lg:px-20 py-12 lg:py-20">
         <div className="max-w-[1422px] mx-auto text-center">
-          <h2 className={`text-black text-4xl sm:text-6xl lg:text-8xl xl:text-[133px] font-medium font-poppins uppercase tracking-tight mb-12 lg:mb-16 transform transition-all duration-1000 ${
-            isVisible.buildtogether ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-          }`}>
-            Let's Build Together
-          </h2>
+          <div
+            className={`bg-clip-text bg-[linear-gradient(180deg,#000_51.38%,rgba(255,255,255,0)_140.75%)] 
+              text-transparent text-4xl sm:text-6xl lg:text-8xl xl:text-[133px] font-medium font-poppins uppercase tracking-tight mb-12 lg:mb-16
+              transition-all duration-1000 transform
+              ${isVisible.buildtogether ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}
+            `}
+          >
+            <div className="leading-none">Let'sBuild</div>
+            <div className="leading-none -mt-0 sm:-mt-0 lg:-mt-6 xl:-mt-8">Together</div>
+          </div>
           
           <div className={`relative inline-block transform transition-all duration-1000 delay-300 ${
             isVisible.buildtogether ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
           }`}>
             <div className="relative aspect-[16/9] w-full max-w-sm sm:max-w-lg lg:max-w-2xl rounded-[50px] sm:rounded-[100px] lg:rounded-[200px] overflow-hidden group hover:scale-105 transition-all duration-500">
               <img 
-                src="/villaexterior.png" 
+                src="/buildtogether.jpg" 
                 alt="Modern villa exterior"
                 className="w-full h-full object-cover transform -rotate-1 sm:-rotate-3 group-hover:scale-110 group-hover:rotate-0 transition-all duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#2F2F2F] via-transparent to-transparent"></div>
-              
-              <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 right-4 sm:right-6 lg:right-8">
+            </div>
+            {/*<div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 right-4 sm:right-6 lg:right-8">
                 <div className="w-16 sm:w-20 lg:w-24 h-16 sm:h-20 lg:h-24 bg-blue-500 rounded-full flex items-center justify-center shadow-2xl hover:bg-blue-600 transform hover:scale-110 hover:rotate-45 transition-all duration-300 cursor-pointer">
                   <ArrowRight className="w-6 sm:w-8 lg:w-12 h-6 sm:h-8 lg:h-12 text-white" />
                 </div>
-              </div>
-            </div>
+              </div>*/}
           </div>
         </div>
       </section>
+      <ContactUs />
 
       <footer id="footer" className="bg-[#82C8E5] px-4 sm:px-6 lg:px-20 py-12 lg:py-16 relative overflow-hidden">
         <div className="max-w-[1422px] mx-auto">

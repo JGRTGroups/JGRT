@@ -116,3 +116,8 @@
     -webkit-text-fill-color: transparent;
   }
 }
+
+.no-style-form {
+  all: unset;
+  display: block;
+}

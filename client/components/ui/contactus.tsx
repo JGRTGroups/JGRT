@@ -1,0 +1,301 @@
+import React, { useState } from 'react';
+import { Send, Mail, Phone, User, MessageSquare } from 'lucide-react';
+
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  contactNumber: string;
+  message: string;
+}
+
+interface FormErrors {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  contactNumber?: string;
+  message?: string;
+}
+
+const ContactUs: React.FC = () => {
+  const [formData, setFormData] = useState<FormData>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    contactNumber: '',
+    message: ''
+  });
+
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = 'First name is required';
+    }
+
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = 'Last name is required';
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!formData.contactNumber.trim()) {
+      newErrors.contactNumber = 'Contact number is required';
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Please tell us how we can help you';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Clear error when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: undefined
+      }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+
+    try {
+      // For Netlify forms, you would submit to your deployed site
+      // This is a demo implementation
+      const netlifyFormData = new FormData();
+      netlifyFormData.append('form-name', 'contact');
+      netlifyFormData.append('firstName', formData.firstName);
+      netlifyFormData.append('lastName', formData.lastName);
+      netlifyFormData.append('email', formData.email);
+      netlifyFormData.append('contactNumber', formData.contactNumber);
+      netlifyFormData.append('message', formData.message);
+      
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      setIsSubmitted(true);
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        contactNumber: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Form submission error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (isSubmitted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-indigo-600 flex items-center justify-center p-4">
+        <div className="bg-white/20 backdrop-blur-lg rounded-3xl p-12 text-center shadow-2xl border border-white/30">
+          <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+          <h2 className="text-3xl font-bold text-white mb-4">Thank You!</h2>
+          <p className="text-white/90 text-lg mb-6">Your message has been sent successfully. We'll get back to you soon!</p>
+          <button 
+            onClick={() => setIsSubmitted(false)}
+            className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-colors duration-200"
+          >
+            Send Another Message
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-300 via-blue-400 to-indigo-500 p-4">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 min-h-screen items-center">
+          
+          {/* Left Column - Contact Info */}
+          <div className="space-y-8">
+            <div className="text-center lg:text-left">
+              <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
+                CONTACT US
+              </h1>
+              <p className="text-xl text-white/90 mb-8 leading-relaxed">
+                Do you have any doubts regarding your dream project?
+              </p>
+            </div>
+
+            {/* Image Placeholder with Enhanced Design */}
+            <div className="relative group">
+              <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/30 hover:bg-white/25 transition-all duration-300">
+                <div className="aspect-video bg-gradient-to-br from-white/10 to-white/5 rounded-2xl border-2 border-dashed border-white/40 flex items-center justify-center group-hover:border-white/60 transition-colors duration-300">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-8 h-8 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                      </svg>
+                    </div>
+                    <p className="text-white/70 font-medium">Image Placeholder</p>
+                    <p className="text-white/50 text-sm mt-1">Upload your project visual</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Contact Form */}
+          <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/30">
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold text-gray-800 mb-2">GET IN TOUCH</h2>
+              <p className="text-gray-600 font-medium">REACH US AT ANY TIME</p>
+            </div>
+
+            <div className="space-y-6">
+              {/* Hidden fields for Netlify - these would be in actual form element in production */}
+              <form name="contactus" method="POST" data-netlify="true" data-netlify-honeypot="field" className='no-style-form space-y-6'>
+              <input type="hidden" name="form-name" value="contactus" />
+
+              {/* Name Fields */}
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="relative">
+                  <User className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    placeholder="FIRST NAME"
+                    className={`text-black w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-500 font-medium ${
+                      errors.firstName ? 'border-red-400' : 'border-gray-200'
+                    }`}
+                  />
+                  {errors.firstName && (
+                    <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
+                  )}
+                </div>
+
+                <div className="relative">
+                  <User className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    placeholder="LAST NAME"
+                    className={`text-black w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-500 font-medium ${
+                      errors.lastName ? 'border-red-400' : 'border-gray-200'
+                    }`}
+                  />
+                  {errors.lastName && (
+                    <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>
+                  )}
+                </div>
+              </div>
+
+              {/* Email Field */}
+              <div className="relative">
+                <Mail className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="EMAIL ID"
+                  className={`text-black w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-500 font-medium ${
+                    errors.email ? 'border-red-400' : 'border-gray-200'
+                  }`}
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                )}
+              </div>
+
+              {/* Contact Number Field */}
+              <div className="relative">
+                <Phone className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
+                <input
+                  type="tel"
+                  name="contactNumber"
+                  value={formData.contactNumber}
+                  onChange={handleInputChange}
+                  placeholder="CONTACT NUMBER"
+                  className={`text-black w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-500 font-medium ${
+                    errors.contactNumber ? 'border-red-400' : 'border-gray-200'
+                  }`}
+                />
+                {errors.contactNumber && (
+                  <p className="text-red-500 text-sm mt-1">{errors.contactNumber}</p>
+                )}
+              </div>
+
+              {/* Message Field */}
+              <div className="relative">
+                <MessageSquare className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  placeholder="HOW CAN WE HELP YOU?"
+                  rows={4}
+                  className={`text-black w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-500 font-medium resize-none ${
+                    errors.message ? 'border-red-400' : 'border-gray-200'
+                  }`}
+                />
+                {errors.message && (
+                  <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+                )}
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="button"
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-5 w-5" />
+                    SUBMIT
+                  </>
+                )}
+              </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ContactUs;
