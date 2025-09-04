@@ -176,8 +176,8 @@ const ContactUs: React.FC = () => {
 
             <div className="space-y-6">
               {/* Hidden fields for Netlify - these would be in actual form element in production */}
-              <form name="contactus" method="POST" data-netlify="true" data-netlify-honeypot="field" className='no-style-form space-y-6'>
               <input type="hidden" name="form-name" value="contactus" />
+              <form name="contactus" data-netlify-honeypot="field" method="POST" data-netlify="true" className='no-style-form space-y-6'>
 
               {/* Name Fields */}
               <div className="grid md:grid-cols-2 gap-4">
@@ -272,7 +272,7 @@ const ContactUs: React.FC = () => {
 
               {/* Submit Button */}
               <button
-                type="button"
+                type="submit"
                 onClick={handleSubmit}
                 disabled={isSubmitting}
                 className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
