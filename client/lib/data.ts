@@ -56,6 +56,6 @@ export const projects: Project[] = [
         units: "30",
         rate: "N/A",
         plotSizes: "1200-2400",
-        image: "Plot3.jpg"
+        image: "Plot3.jpeg"
     },
 ];
