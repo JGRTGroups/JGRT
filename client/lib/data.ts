@@ -38,7 +38,7 @@ export const projects: Project[] = [
         units: "1",
         rate: "3500/-Sqft",
         plotSizes: "600-1500",
-        image: "house.jpg"
+        image: "Plot1.jpg"
     },
     {
         name: "Parvathinagar",
@@ -47,7 +47,7 @@ export const projects: Project[] = [
         units: "N/A",
         rate: "3200/-Sqft",
         plotSizes: "650-1100",
-        image: "house.jpg"
+        image: "Plot2.jpg"
     },
     {
         name: "Mahalakshminagar",
@@ -56,16 +56,6 @@ export const projects: Project[] = [
         units: "30",
         rate: "N/A",
         plotSizes: "1200-2400",
-        image: "house.jpg"
-    },
-    {
-        name: "Parvathinagar",
-        location: "Kozhimahikaram",
-        area: "1 Acre",
-        units: "N/A",
-        rate: "3200/-Sqft",
-        plotSizes: "650-1100",
-        image: "house.jpg",
-        link: "https://google.com"
+        image: "Plot3.jpeg"
     },
 ];
