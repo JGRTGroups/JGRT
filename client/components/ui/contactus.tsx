@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Send, Mail, Phone, User, MessageSquare } from 'lucide-react';
+import React, { useState } from "react";
+import { Send, Mail, Phone, User, MessageSquare } from "lucide-react";
 
 interface FormData {
   firstName: string;
@@ -19,11 +19,11 @@ interface FormErrors {
 
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    contactNumber: '',
-    message: ''
+    firstName: "",
+    lastName: "",
+    email: "",
+    contactNumber: "",
+    message: "",
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -34,78 +34,76 @@ const ContactUs: React.FC = () => {
     const newErrors: FormErrors = {};
 
     if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
+      newErrors.firstName = "First name is required";
     }
 
     if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
+      newErrors.lastName = "Last name is required";
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = "Please enter a valid email address";
     }
 
     if (!formData.contactNumber.trim()) {
-      newErrors.contactNumber = 'Contact number is required';
+      newErrors.contactNumber = "Contact number is required";
     }
 
     if (!formData.message.trim()) {
-      newErrors.message = 'Please tell us how we can help you';
+      newErrors.message = "Please tell us how we can help you";
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
-    
-    // Clear error when user starts typing
+
     if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: undefined
+        [name]: undefined,
       }));
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-
     try {
-      // For Netlify forms, you would submit to your deployed site
-      // This is a demo implementation
       const netlifyFormData = new FormData();
-      netlifyFormData.append('form-name', 'contact');
-      netlifyFormData.append('firstName', formData.firstName);
-      netlifyFormData.append('lastName', formData.lastName);
-      netlifyFormData.append('email', formData.email);
-      netlifyFormData.append('contactNumber', formData.contactNumber);
-      netlifyFormData.append('message', formData.message);
-      
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      netlifyFormData.append("form-name", "contactus");
+
+      Object.entries(formData).forEach(([key, value]) => {
+        netlifyFormData.append(key, value);
+      });
+
+      await fetch("/", {
+        method: "POST",
+        body: netlifyFormData,
+      });
+
       setIsSubmitted(true);
       setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        contactNumber: '',
-        message: ''
+        firstName: "",
+        lastName: "",
+        email: "",
+        contactNumber: "",
+        message: "",
       });
     } catch (error) {
-      console.error('Form submission error:', error);
+      console.error("Form submission error:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -116,13 +114,25 @@ const ContactUs: React.FC = () => {
       <div className="min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-indigo-600 flex items-center justify-center p-4">
         <div className="bg-white/20 backdrop-blur-lg rounded-3xl p-12 text-center shadow-2xl border border-white/30">
           <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+            <svg
+              className="w-10 h-10 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M5 13l4 4L19 7"
+              ></path>
             </svg>
           </div>
           <h2 className="text-3xl font-bold text-white mb-4">Thank You!</h2>
-          <p className="text-white/90 text-lg mb-6">Your message has been sent successfully. We'll get back to you soon!</p>
-          <button 
+          <p className="text-white/90 text-lg mb-6">
+            Your message has been sent successfully. We'll get back to you soon!
+          </p>
+          <button
             onClick={() => setIsSubmitted(false)}
             className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-colors duration-200"
           >
@@ -136,9 +146,8 @@ const ContactUs: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-300 via-blue-400 to-indigo-500 p-4">
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-8 min-h-screen items-center">
-          
-          {/* Left Column - Contact Info */}
+        <div className="grid lg:grid-cols-2 lg:gap-40 gap-8 min-h-screen items-center">
+          {/* Left Column */}
           <div className="space-y-8">
             <div className="text-center lg:text-left">
               <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 tracking-tight">
@@ -148,38 +157,73 @@ const ContactUs: React.FC = () => {
                 Do you have any doubts regarding your dream project?
               </p>
             </div>
-
-            {/* Image Placeholder with Enhanced Design */}
+            {/* Map & Contact Buttons */}
             <div className="relative group">
-              <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/30 hover:bg-white/25 transition-all duration-300">
-                <div className="aspect-video bg-gradient-to-br from-white/10 to-white/5 rounded-2xl border-2 border-dashed border-white/40 flex items-center justify-center group-hover:border-white/60 transition-colors duration-300">
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-8 h-8 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                      </svg>
-                    </div>
-                    <p className="text-white/70 font-medium">Image Placeholder</p>
-                    <p className="text-white/50 text-sm mt-1">Upload your project visual</p>
+              <div
+                className="relative group w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl mx-auto px-4 sm:px-0 cursor-pointer"
+                onClick={() =>
+                  window.open(
+                    "https://maps.app.goo.gl/BxukQ9fKCjgVeY949",
+                    "_blank"
+                  )
+                }
+              >
+                <div className="overflow-hidden rounded-2xl sm:rounded-3xl shadow-lg">
+                  <img
+                    src="map.png"
+                    alt="Map Image"
+                    className="w-full h-48 sm:h-56 md:h-64 lg:h-72 xl:h-80 object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center gap-3 sm:gap-4 px-4 sm:px-6">
+                    <button
+                      onClick={() =>
+                        (window.location.href = "tel:+919042527576")
+                      }
+                      className="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 rounded-full shadow-lg transition-all duration-200 text-sm sm:text-base hover:shadow-xl transform hover:scale-105 active:scale-95 w-full max-w-xs text-center"
+                    >
+                      📞 <span className="hidden sm:inline">Call us: </span>
+                      <span className="sm:hidden">Call: </span>
+                      +91-9042527576
+                    </button>
+                    <button
+                      onClick={() =>
+                        (window.location.href = "mailto:jgrtgroups@gmail.com")
+                      }
+                      className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 rounded-full shadow-lg transition-all duration-200 text-sm sm:text-base hover:shadow-xl transform hover:scale-105 active:scale-95 w-full max-w-xs text-center break-all sm:break-normal"
+                    >
+                      ✉️{" "}
+                      <span className="hidden sm:inline">Email: </span>
+                      <span className="sm:hidden">✉️ </span>
+                      <span className="text-xs sm:text-sm md:text-base">
+                        jgrtgroups@gmail.com
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column - Contact Form */}
+          {/* Right Column - Form */}
           <div className="bg-white/95 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/30">
             <div className="mb-8">
-              <h2 className="text-3xl font-bold text-gray-800 mb-2">GET IN TOUCH</h2>
+              <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                GET IN TOUCH
+              </h2>
               <p className="text-gray-600 font-medium">REACH US AT ANY TIME</p>
             </div>
 
-            <div className="space-y-6">
-              {/* Hidden fields for Netlify - these would be in actual form element in production */}
+            <form
+              name="contactus"
+              method="POST"
+              data-netlify="true"
+              data-netlify-honeypot="field"
+              onSubmit={handleSubmit}
+              className="no-style-form space-y-6"
+            >
+              {/* Netlify needs this */}
               <input type="hidden" name="form-name" value="contactus" />
-              <form name="contactus" data-netlify-honeypot="field" method="POST" data-netlify="true" className='no-style-form space-y-6'>
 
-              {/* Name Fields */}
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="relative">
                   <User className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
@@ -190,11 +234,13 @@ const ContactUs: React.FC = () => {
                     onChange={handleInputChange}
                     placeholder="FIRST NAME"
                     className={`text-black w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-500 font-medium ${
-                      errors.firstName ? 'border-red-400' : 'border-gray-200'
+                      errors.firstName ? "border-red-400" : "border-gray-200"
                     }`}
                   />
                   {errors.firstName && (
-                    <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.firstName}
+                    </p>
                   )}
                 </div>
 
@@ -207,16 +253,17 @@ const ContactUs: React.FC = () => {
                     onChange={handleInputChange}
                     placeholder="LAST NAME"
                     className={`text-black w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-500 font-medium ${
-                      errors.lastName ? 'border-red-400' : 'border-gray-200'
+                      errors.lastName ? "border-red-400" : "border-gray-200"
                     }`}
                   />
                   {errors.lastName && (
-                    <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.lastName}
+                    </p>
                   )}
                 </div>
               </div>
 
-              {/* Email Field */}
               <div className="relative">
                 <Mail className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
                 <input
@@ -226,7 +273,7 @@ const ContactUs: React.FC = () => {
                   onChange={handleInputChange}
                   placeholder="EMAIL ID"
                   className={`text-black w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-500 font-medium ${
-                    errors.email ? 'border-red-400' : 'border-gray-200'
+                    errors.email ? "border-red-400" : "border-gray-200"
                   }`}
                 />
                 {errors.email && (
@@ -234,7 +281,6 @@ const ContactUs: React.FC = () => {
                 )}
               </div>
 
-              {/* Contact Number Field */}
               <div className="relative">
                 <Phone className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
                 <input
@@ -244,15 +290,16 @@ const ContactUs: React.FC = () => {
                   onChange={handleInputChange}
                   placeholder="CONTACT NUMBER"
                   className={`text-black w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-500 font-medium ${
-                    errors.contactNumber ? 'border-red-400' : 'border-gray-200'
+                    errors.contactNumber ? "border-red-400" : "border-gray-200"
                   }`}
                 />
                 {errors.contactNumber && (
-                  <p className="text-red-500 text-sm mt-1">{errors.contactNumber}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.contactNumber}
+                  </p>
                 )}
               </div>
 
-              {/* Message Field */}
               <div className="relative">
                 <MessageSquare className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
                 <textarea
@@ -262,7 +309,7 @@ const ContactUs: React.FC = () => {
                   placeholder="HOW CAN WE HELP YOU?"
                   rows={4}
                   className={`text-black w-full pl-12 pr-4 py-4 bg-gray-50 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-500 font-medium resize-none ${
-                    errors.message ? 'border-red-400' : 'border-gray-200'
+                    errors.message ? "border-red-400" : "border-gray-200"
                   }`}
                 />
                 {errors.message && (
@@ -270,10 +317,8 @@ const ContactUs: React.FC = () => {
                 )}
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
-                onClick={handleSubmit}
                 disabled={isSubmitting}
                 className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
               >
@@ -289,8 +334,7 @@ const ContactUs: React.FC = () => {
                   </>
                 )}
               </button>
-              </form>
-            </div>
+            </form>
           </div>
         </div>
       </div>

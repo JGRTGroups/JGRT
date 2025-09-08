@@ -17,6 +17,7 @@ export default function Index() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [currentSlide, setCurrentSlide] = useState(0);
+  
   const [isVisible, setIsVisible] = useState({
     hero: false,
     founder: false,
@@ -73,6 +74,36 @@ export default function Index() {
 
     return () => observer.disconnect();
   }, []);
+  const [projectCurrentSlide, setProjectCurrentSlide] = useState(0);
+  
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProjectCurrentSlide((prev) => (prev + 1) % Math.ceil(projects.length / 3));
+    }, 5000);
+    
+    return () => clearInterval(timer);
+  }, [projects.length]);
+
+  const totalSlides = Math.ceil(projects.length / 3);
+  const itemsPerSlide = 3;
+
+  const getCurrentSlideProjects = () => {
+    const startIndex = currentSlide * itemsPerSlide;
+    return projects.slice(startIndex, startIndex + itemsPerSlide);
+  };
+
+  const goToSlideProject = (slideIndex) => {
+    setProjectCurrentSlide(slideIndex);
+  };
+
+  const nextSlideProject = () => {
+    setProjectCurrentSlide((prev) => (prev + 1) % totalSlides);
+  };
+
+  const prevSlideProject = () => {
+    setProjectCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  };
+
 
   return (
     <div className="min-h-screen bg-[#84C4FF] text-white overflow-x-hidden">
@@ -301,7 +332,10 @@ export default function Index() {
               </blockquote>
 
               <button className="bg-blue-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-inter font-bold hover:bg-blue-600 transform hover:scale-105 transition-all duration-300">
-                -Mr.A.Rajavel
+                Mr.A.Rajavel
+              </button>
+              <button className="ml-5 bg-blue-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-inter font-bold hover:bg-blue-600 transform hover:scale-105 transition-all duration-300">
+                A.R.JayaSurya (Managing Director)
               </button>
             </div>
 
@@ -456,109 +490,163 @@ export default function Index() {
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-12 lg:mb-16">
-              {projects.map((property, index) => (
-                <div
-                  onClick={property.link ? () => {window.open(property.link, "_blank")} : undefined}
-                  key={index}
-                  className={`space-y-6 transform transition-all duration-1000 hover:scale-105 ${property.link ? "cursor-pointer": ""}
-                    ${
-                      isVisible.properties
-                        ? "translate-y-0 opacity-100"
-                        : "translate-y-10 opacity-0"
-                    }`
-                  }
-                  style={{ transitionDelay: `${300 + index * 200}ms` }}
-                >
-                  <div className="aspect-[4/3] rounded-[40px] lg:rounded-[80px] overflow-hidden group">
-                    <img
-                      src={property.image}
-                      alt="Modern villa with pool"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
+            <div className="mb-12 lg:mb-16">
+            <div className="relative overflow-hidden">
+              <div 
+                className="flex transition-transform duration-700 ease-in-out"
+                style={{ transform: `translateX(-${projectCurrentSlide * 100}%)` }}
+              >
+                {Array.from({ length: totalSlides }).map((_, slideIndex) => (
+                  <div
+                    key={slideIndex}
+                    className="min-w-full grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+                  >
+                    {projects
+                      .slice(slideIndex * itemsPerSlide, (slideIndex + 1) * itemsPerSlide)
+                      .map((property, index) => (
+                        <div
+                          onClick={property.link ? () => {window.open(property.link, "_blank")} : undefined}
+                          key={`${slideIndex}-${index}`}
+                          className={`space-y-6 transform transition-all duration-1000 hover:scale-105 ${property.link ? "cursor-pointer": ""}
+                            ${
+                              isVisible.properties
+                                ? "translate-y-0 opacity-100"
+                                : "translate-y-10 opacity-0"
+                            }`
+                          }
+                          style={{ transitionDelay: `${300 + index * 200}ms` }}
+                        >
+                          <div className="aspect-[4/3] rounded-[40px] lg:rounded-[80px] overflow-hidden group">
+                            <img
+                              src={property.image}
+                              alt="Modern villa with pool"
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            />
+                          </div>
+
+                          <div className="bg-gradient-to-b from-[#DDE4E1] to-[#979898] rounded-2xl lg:rounded-3xl p-4 lg:p-6 text-black hover:shadow-2xl transition-all duration-500">
+                            <h3 className="text-xl sm:text-2xl font-medium font-poppins mb-2">
+                              {property.name}
+                            </h3>
+                            <p className="text-base sm:text-lg font-light font-poppins mb-4 lg:mb-6">
+                              {property.location}
+                            </p>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                              <div className="space-y-3 lg:space-y-4">
+                                <div className="flex items-center gap-3">
+                                  <img
+                                    src="/projectarea.png"
+                                    alt="Area"
+                                    className="w-6 sm:w-8 h-6 sm:h-8"
+                                  />
+                                  <div>
+                                    <p className="font-medium text-sm sm:text-base">
+                                      Project Area:
+                                    </p>
+                                    <p className="font-light text-sm sm:text-base">
+                                      {property.area}
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <div className="flex items-center gap-3">
+                                  <img
+                                    src="/rate.png"
+                                    alt="Units"
+                                    className="w-6 sm:w-8 h-6 sm:h-8"
+                                  />
+                                  <div>
+                                    <p className="font-medium text-sm sm:text-base">
+                                      Total Units:
+                                    </p>
+                                    <p className="font-light text-sm sm:text-base">
+                                      {property.units}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="space-y-3 lg:space-y-4">
+                                <div className="flex items-center gap-3">
+                                  <img
+                                    src="/rate.png"
+                                    alt="Rate"
+                                    className="w-6 sm:w-8 h-6 sm:h-8"
+                                  />
+                                  <div>
+                                    <p className="font-medium text-sm sm:text-base">
+                                      Rate Per Sqft:
+                                    </p>
+                                    <p className="font-light text-sm sm:text-base">
+                                      {property.rate}
+                                    </p>
+                                  </div>
+                                </div>
+
+                                <div className="flex items-center gap-3">
+                                  <img
+                                    src="/size.png"
+                                    alt="Size"
+                                    className="w-6 sm:w-8 h-6 sm:h-8"
+                                  />
+                                  <div>
+                                    <p className="font-medium text-sm sm:text-base">
+                                      Plot Sizes:
+                                    </p>
+                                    <p className="font-light text-sm sm:text-base">
+                                      {property.plotSizes}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                   </div>
-
-                  <div className="bg-gradient-to-b from-[#DDE4E1] to-[#979898] rounded-2xl lg:rounded-3xl p-4 lg:p-6 text-black hover:shadow-2xl transition-all duration-500">
-                    <h3 className="text-xl sm:text-2xl font-medium font-poppins mb-2">
-                      {property.name}
-                    </h3>
-                    <p className="text-base sm:text-lg font-light font-poppins mb-4 lg:mb-6">
-                      {property.location}
-                    </p>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                      <div className="space-y-3 lg:space-y-4">
-                        <div className="flex items-center gap-3">
-                          <img
-                            src="/projectarea.png"
-                            alt="Area"
-                            className="w-6 sm:w-8 h-6 sm:h-8"
-                          />
-                          <div>
-                            <p className="font-medium text-sm sm:text-base">
-                              Project Area:
-                            </p>
-                            <p className="font-light text-sm sm:text-base">
-                              {property.area}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                          <img
-                            src="/rate.png"
-                            alt="Units"
-                            className="w-6 sm:w-8 h-6 sm:h-8"
-                          />
-                          <div>
-                            <p className="font-medium text-sm sm:text-base">
-                              Total Units:
-                            </p>
-                            <p className="font-light text-sm sm:text-base">
-                              {property.units}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-3 lg:space-y-4">
-                        <div className="flex items-center gap-3">
-                          <img
-                            src="/rate.png"
-                            alt="Rate"
-                            className="w-6 sm:w-8 h-6 sm:h-8"
-                          />
-                          <div>
-                            <p className="font-medium text-sm sm:text-base">
-                              Rate Per Sqft:
-                            </p>
-                            <p className="font-light text-sm sm:text-base">
-                              {property.rate}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                          <img
-                            src="/size.png"
-                            alt="Size"
-                            className="w-6 sm:w-8 h-6 sm:h-8"
-                          />
-                          <div>
-                            <p className="font-medium text-sm sm:text-base">
-                              Plot Sizes:
-                            </p>
-                            <p className="font-light text-sm sm:text-base">
-                              {property.plotSizes}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
+
+            {totalSlides > 1 && (
+              <>
+                <button
+                  onClick={prevSlideProject}
+                  className="absolute left-4 sm:left-8 lg:left-12 top-1/2 -translate-y-1/2 w-12 sm:w-16 lg:w-20 h-12 sm:h-16 lg:h-20 
+                            bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center 
+                            hover:bg-white/40 transition-all duration-300 group"
+                >
+                  <ChevronLeft className="w-6 sm:w-8 lg:w-10 h-6 sm:h-8 lg:h-10 text-white transform transition-transform duration-300 group-hover:scale-110" />
+                </button>
+
+                <button
+                  onClick={nextSlideProject}
+                  className="absolute right-4 sm:right-8 lg:right-12 top-1/2 -translate-y-1/2 w-12 sm:w-16 lg:w-20 h-12 sm:h-16 lg:h-20 
+                            bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center 
+                            hover:bg-white/40 transition-all duration-300 group"
+                >
+                  <ChevronRight className="w-6 sm:w-8 lg:w-10 h-6 sm:h-8 lg:h-10 text-white transform transition-transform duration-300 group-hover:scale-110" />
+                </button>
+
+                <div className="mt-8 flex items-center justify-center space-x-2">
+                  {Array.from({ length: totalSlides }).map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => goToSlideProject(index)}
+                      aria-label={`Go to slide ${index + 1}`}
+                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                        index === projectCurrentSlide
+                          ? 'bg-gray-200 scale-125'
+                          : 'bg-gray-400 hover:bg-gray-400'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+
+          </div>
           </div>
         </div>
       </section>

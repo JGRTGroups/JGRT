@@ -58,4 +58,13 @@ export const projects: Project[] = [
         plotSizes: "1200-2400",
         image: "Plot3.jpeg"
     },
+    {
+        name: "Mahalakshminagar",
+        location: "Mangadu Main Road",
+        area: "2 Acre",
+        units: "30",
+        rate: "N/A",
+        plotSizes: "1200-2400",
+        image: "Plot3.jpeg"
+    },
 ];
