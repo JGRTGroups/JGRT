@@ -27,7 +27,7 @@ export const slides: Slide[] = [
         image: "dreamhouse.jpg",
         title: "Dream House"
     }
-]
+];
 
 
 export const projects: Project[] = [
