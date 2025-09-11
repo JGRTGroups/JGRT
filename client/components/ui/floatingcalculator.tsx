@@ -388,7 +388,7 @@ export default function FloatingCalculator({
       onTouchStart={handleTouchStart}
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-600 to-blue-500 rounded-t-xl text-white shadow-lg">
+      <div className="flex items-center justify-between p-4 bg-blue-600 rounded-t-xl text-white shadow-lg">
         <div className="flex items-center space-x-2">
           <Calculator className="h-5 w-5" />
           <h2 className="font-semibold">JGRT Calculator</h2>

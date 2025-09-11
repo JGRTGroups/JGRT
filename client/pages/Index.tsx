@@ -2,8 +2,6 @@ import ContactUs from "@/components/ui/contactus";
 import FloatingCalculator from "@/components/ui/floatingcalculator";
 import { projects, slides } from "@/lib/data";
 import {
-  ChevronDown,
-  Play,
   ArrowRight,
   Menu,
   X,
@@ -75,22 +73,43 @@ export default function Index() {
     return () => observer.disconnect();
   }, []);
   const [projectCurrentSlide, setProjectCurrentSlide] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+  
+  // Calculate responsive items per slide
+  const getItemsPerSlide = () => {
+    if (windowWidth < 640) return 1; // mobile: 1 item
+    if (windowWidth < 1280) return 2; // sm to lg: 2 items  
+    return 3; // xl and above: 3 items
+  };
+  
+  const itemsPerSlide = getItemsPerSlide();
+  const totalSlides = Math.ceil(projects.length / itemsPerSlide);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      const prevItemsPerSlide = getItemsPerSlide();
+      setWindowWidth(window.innerWidth);
+      
+      // Check if items per slide will change after window width update
+      const newWidth = window.innerWidth;
+      const newItemsPerSlide = newWidth < 640 ? 1 : newWidth < 1280 ? 2 : 3;
+      
+      if (prevItemsPerSlide !== newItemsPerSlide) {
+        setProjectCurrentSlide(0);
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [windowWidth]);
   
   useEffect(() => {
     const timer = setInterval(() => {
-      setProjectCurrentSlide((prev) => (prev + 1) % Math.ceil(projects.length / 3));
+      setProjectCurrentSlide((prev) => (prev + 1) % totalSlides);
     }, 5000);
     
     return () => clearInterval(timer);
-  }, [projects.length]);
-
-  const totalSlides = Math.ceil(projects.length / 3);
-  const itemsPerSlide = 3;
-
-  const getCurrentSlideProjects = () => {
-    const startIndex = currentSlide * itemsPerSlide;
-    return projects.slice(startIndex, startIndex + itemsPerSlide);
-  };
+  }, [projects.length, totalSlides]);
 
   const goToSlideProject = (slideIndex) => {
     setProjectCurrentSlide(slideIndex);
@@ -295,7 +314,7 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="founder" className="px-4 sm:px-6 lg:px-20 py-12 lg:py-20">
+      <section id="founder" className="px-4 sm:px-6 lg:px-14 py-12 lg:py-20">
         <div className="max-w-[1422px] mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             <div
@@ -332,7 +351,7 @@ export default function Index() {
               </blockquote>
 
               <button className="bg-blue-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-inter font-bold hover:bg-blue-600 transform hover:scale-105 transition-all duration-300">
-                Mr.A.Rajavel
+                A.Rajavel (Founder & Chairman)
               </button>
               <button className="ml-5 bg-blue-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-inter font-bold hover:bg-blue-600 transform hover:scale-105 transition-all duration-300">
                 A.R.JayaSurya (Managing Director)
@@ -340,7 +359,7 @@ export default function Index() {
             </div>
 
             <div
-              className={`space-y-12 lg:space-y-16 transform transition-all duration-1000 delay-300 ${
+              className={`lg:ml-10 space-y-12 lg:space-y-16 transform transition-all duration-1000 delay-300 ${
                 isVisible.founder
                   ? "translate-x-0 opacity-100"
                   : "translate-x-10 opacity-0"
@@ -476,16 +495,16 @@ export default function Index() {
 
           <div className="relative">
             <div
-              className={`flex flex-col lg:flex-row justify-between items-start lg:items-center mb-12 lg:mb-16 gap-6 transform transition-all duration-1000 ${
+              className={`flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 sm:mb-12 lg:mb-16 gap-4 sm:gap-6 transform transition-all duration-1000 ${
                 isVisible.properties
                   ? "translate-y-0 opacity-100"
                   : "translate-y-10 opacity-0"
               }`}
             >
-              <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-medium font-poppins">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[44px] font-medium font-poppins">
                 Recent Properties
               </h2>
-              <p className="text-white text-lg sm:text-xl font-poppins max-w-md">
+              <p className="text-white text-base sm:text-lg lg:text-xl font-poppins max-w-sm lg:max-w-md">
                 "Building trust, one foundation at a time."
               </p>
             </div>
@@ -499,7 +518,7 @@ export default function Index() {
                 {Array.from({ length: totalSlides }).map((_, slideIndex) => (
                   <div
                     key={slideIndex}
-                    className="min-w-full grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+                    className="min-w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
                   >
                     {projects
                       .slice(slideIndex * itemsPerSlide, (slideIndex + 1) * itemsPerSlide)
@@ -516,7 +535,7 @@ export default function Index() {
                           }
                           style={{ transitionDelay: `${300 + index * 200}ms` }}
                         >
-                          <div className="aspect-[4/3] rounded-[40px] lg:rounded-[80px] overflow-hidden group">
+                          <div className="aspect-[4/3] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] xl:rounded-[80px] overflow-hidden group">
                             <img
                               src={property.image}
                               alt="Modern villa with pool"
@@ -524,77 +543,77 @@ export default function Index() {
                             />
                           </div>
 
-                          <div className="bg-gradient-to-b from-[#DDE4E1] to-[#979898] rounded-2xl lg:rounded-3xl p-4 lg:p-6 text-black hover:shadow-2xl transition-all duration-500">
-                            <h3 className="text-xl sm:text-2xl font-medium font-poppins mb-2">
+                          <div className="bg-gradient-to-b from-[#DDE4E1] to-[#979898] rounded-xl sm:rounded-2xl lg:rounded-3xl p-3 sm:p-4 lg:p-6 text-black hover:shadow-2xl transition-all duration-500">
+                            <h3 className="text-lg sm:text-xl lg:text-2xl font-medium font-poppins mb-2">
                               {property.name}
                             </h3>
-                            <p className="text-base sm:text-lg font-light font-poppins mb-4 lg:mb-6">
+                            <p className="text-sm sm:text-base lg:text-lg font-light font-poppins mb-3 sm:mb-4 lg:mb-6">
                               {property.location}
                             </p>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
-                              <div className="space-y-3 lg:space-y-4">
-                                <div className="flex items-center gap-3">
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
+                              <div className="space-y-2 sm:space-y-3 lg:space-y-4">
+                                <div className="flex items-center gap-2 sm:gap-3">
                                   <img
                                     src="/projectarea.png"
                                     alt="Area"
-                                    className="w-6 sm:w-8 h-6 sm:h-8"
+                                    className="w-5 sm:w-6 lg:w-8 h-5 sm:h-6 lg:h-8 flex-shrink-0"
                                   />
-                                  <div>
-                                    <p className="font-medium text-sm sm:text-base">
+                                  <div className="min-w-0">
+                                    <p className="font-medium text-xs sm:text-sm lg:text-base truncate">
                                       Project Area:
                                     </p>
-                                    <p className="font-light text-sm sm:text-base">
+                                    <p className="font-light text-xs sm:text-sm lg:text-base truncate">
                                       {property.area}
                                     </p>
                                   </div>
                                 </div>
 
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-2 sm:gap-3">
                                   <img
                                     src="/rate.png"
                                     alt="Units"
-                                    className="w-6 sm:w-8 h-6 sm:h-8"
+                                    className="w-5 sm:w-6 lg:w-8 h-5 sm:h-6 lg:h-8 flex-shrink-0"
                                   />
-                                  <div>
-                                    <p className="font-medium text-sm sm:text-base">
+                                  <div className="min-w-0">
+                                    <p className="font-medium text-xs sm:text-sm lg:text-base truncate">
                                       Total Units:
                                     </p>
-                                    <p className="font-light text-sm sm:text-base">
+                                    <p className="font-light text-xs sm:text-sm lg:text-base truncate">
                                       {property.units}
                                     </p>
                                   </div>
                                 </div>
                               </div>
 
-                              <div className="space-y-3 lg:space-y-4">
-                                <div className="flex items-center gap-3">
+                              <div className="space-y-2 sm:space-y-3 lg:space-y-4">
+                                <div className="flex items-center gap-2 sm:gap-3">
                                   <img
                                     src="/rate.png"
                                     alt="Rate"
-                                    className="w-6 sm:w-8 h-6 sm:h-8"
+                                    className="w-5 sm:w-6 lg:w-8 h-5 sm:h-6 lg:h-8 flex-shrink-0"
                                   />
-                                  <div>
-                                    <p className="font-medium text-sm sm:text-base">
+                                  <div className="min-w-0">
+                                    <p className="font-medium text-xs sm:text-sm lg:text-base truncate">
                                       Rate Per Sqft:
                                     </p>
-                                    <p className="font-light text-sm sm:text-base">
+                                    <p className="font-light text-xs sm:text-sm lg:text-base truncate">
                                       {property.rate}
                                     </p>
                                   </div>
                                 </div>
 
-                                <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-2 sm:gap-3">
                                   <img
                                     src="/size.png"
                                     alt="Size"
-                                    className="w-6 sm:w-8 h-6 sm:h-8"
+                                    className="w-5 sm:w-6 lg:w-8 h-5 sm:h-6 lg:h-8 flex-shrink-0"
                                   />
-                                  <div>
-                                    <p className="font-medium text-sm sm:text-base">
+                                  <div className="min-w-0">
+                                    <p className="font-medium text-xs sm:text-sm lg:text-base truncate">
                                       Plot Sizes:
                                     </p>
-                                    <p className="font-light text-sm sm:text-base">
+                                    <p className="font-light text-xs sm:text-sm lg:text-base truncate">
                                       {property.plotSizes}
                                     </p>
                                   </div>
@@ -613,29 +632,29 @@ export default function Index() {
               <>
                 <button
                   onClick={prevSlideProject}
-                  className="absolute left-4 sm:left-8 lg:left-12 top-1/2 -translate-y-1/2 w-12 sm:w-16 lg:w-20 h-12 sm:h-16 lg:h-20 
+                  className="absolute left-2 sm:left-4 lg:left-8 xl:left-12 top-1/2 -translate-y-1/2 w-10 sm:w-12 lg:w-16 xl:w-20 h-10 sm:h-12 lg:h-16 xl:h-20 
                             bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center 
-                            hover:bg-white/40 transition-all duration-300 group"
+                            hover:bg-white/40 transition-all duration-300 group z-10"
                 >
-                  <ChevronLeft className="w-6 sm:w-8 lg:w-10 h-6 sm:h-8 lg:h-10 text-white transform transition-transform duration-300 group-hover:scale-110" />
+                  <ChevronLeft className="w-5 sm:w-6 lg:w-8 xl:w-10 h-5 sm:h-6 lg:h-8 xl:h-10 text-white transform transition-transform duration-300 group-hover:scale-110" />
                 </button>
 
                 <button
                   onClick={nextSlideProject}
-                  className="absolute right-4 sm:right-8 lg:right-12 top-1/2 -translate-y-1/2 w-12 sm:w-16 lg:w-20 h-12 sm:h-16 lg:h-20 
+                  className="absolute right-2 sm:right-4 lg:right-8 xl:right-12 top-1/2 -translate-y-1/2 w-10 sm:w-12 lg:w-16 xl:w-20 h-10 sm:h-12 lg:h-16 xl:h-20 
                             bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center 
-                            hover:bg-white/40 transition-all duration-300 group"
+                            hover:bg-white/40 transition-all duration-300 group z-10"
                 >
-                  <ChevronRight className="w-6 sm:w-8 lg:w-10 h-6 sm:h-8 lg:h-10 text-white transform transition-transform duration-300 group-hover:scale-110" />
+                  <ChevronRight className="w-5 sm:w-6 lg:w-8 xl:w-10 h-5 sm:h-6 lg:h-8 xl:h-10 text-white transform transition-transform duration-300 group-hover:scale-110" />
                 </button>
 
-                <div className="mt-8 flex items-center justify-center space-x-2">
+                <div className="mt-6 sm:mt-8 flex items-center justify-center space-x-2">
                   {Array.from({ length: totalSlides }).map((_, index) => (
                     <button
                       key={index}
                       onClick={() => goToSlideProject(index)}
                       aria-label={`Go to slide ${index + 1}`}
-                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      className={`w-2 sm:w-3 h-2 sm:h-3 rounded-full transition-all duration-300 ${
                         index === projectCurrentSlide
                           ? 'bg-gray-200 scale-125'
                           : 'bg-gray-400 hover:bg-gray-400'

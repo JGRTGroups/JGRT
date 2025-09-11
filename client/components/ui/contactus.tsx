@@ -144,7 +144,7 @@ const ContactUs: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-300 via-blue-400 to-indigo-500 p-4">
+    <div className="min-h-screen p-4">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 lg:gap-40 gap-8 min-h-screen items-center">
           {/* Left Column */}
