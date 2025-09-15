@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Send, Mail, Phone, User, MessageSquare } from "lucide-react";
+import { useForm } from '@formspree/react';
 
 interface FormData {
   firstName: string;
@@ -27,8 +28,9 @@ const ContactUs: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  
+  // Replace your form ID here
+  const [state, handleSubmit] = useForm("xjkezzvd");
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -76,25 +78,19 @@ const ContactUs: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Validate form first
     if (!validateForm()) return;
+    
+    // If validation passes, submit to Formspree
+    handleSubmit(e);
+  };
 
-    setIsSubmitting(true);
-    try {
-      const netlifyFormData = new FormData();
-      netlifyFormData.append("form-name", "contactus");
-
-      Object.entries(formData).forEach(([key, value]) => {
-        netlifyFormData.append(key, value);
-      });
-
-      await fetch("/", {
-        method: "POST",
-        body: netlifyFormData,
-      });
-
-      setIsSubmitted(true);
+  // Clear form when submission is successful
+  React.useEffect(() => {
+    if (state.succeeded) {
       setFormData({
         firstName: "",
         lastName: "",
@@ -102,14 +98,10 @@ const ContactUs: React.FC = () => {
         contactNumber: "",
         message: "",
       });
-    } catch (error) {
-      console.error("Form submission error:", error);
-    } finally {
-      setIsSubmitting(false);
     }
-  };
+  }, [state.succeeded]);
 
-  if (isSubmitted) {
+  if (state.succeeded) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-indigo-600 flex items-center justify-center p-4">
         <div className="bg-white/20 backdrop-blur-lg rounded-3xl p-12 text-center shadow-2xl border border-white/30">
@@ -133,7 +125,7 @@ const ContactUs: React.FC = () => {
             Your message has been sent successfully. We'll get back to you soon!
           </p>
           <button
-            onClick={() => setIsSubmitted(false)}
+            onClick={() => window.location.reload()}
             className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-colors duration-200"
           >
             Send Another Message
@@ -157,6 +149,14 @@ const ContactUs: React.FC = () => {
                 Do you have any doubts regarding your dream project?
               </p>
             </div>
+            
+            {/* "You can also reach us directly" text - ADDED THIS */}
+            <div className="text-center lg:text-left">
+              <p className="text-lg text-white/90 font-medium mb-6">
+                You can also reach us directly:
+              </p>
+            </div>
+
             {/* Map & Contact Buttons */}
             <div className="relative group">
               <div
@@ -214,16 +214,9 @@ const ContactUs: React.FC = () => {
             </div>
 
             <form
-              name="contactus"
-              method="POST"
-              data-netlify="true"
-              data-netlify-honeypot="field"
-              onSubmit={handleSubmit}
+              onSubmit={onSubmit}
               className="no-style-form space-y-6"
             >
-              {/* Netlify needs this */}
-              <input type="hidden" name="form-name" value="contactus" />
-
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="relative">
                   <User className="absolute left-4 top-4 h-5 w-5 text-gray-400" />
@@ -319,10 +312,10 @@ const ContactUs: React.FC = () => {
 
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={state.submitting}
                 className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
               >
-                {isSubmitting ? (
+                {state.submitting ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
                     Sending...
