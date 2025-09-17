@@ -279,7 +279,7 @@ export default function Index() {
 
                 <p className="text-black text-base sm:text-lg lg:text-xl max-w-md font-inter leading-relaxed">
                   Your Vision, Our Experience With 20+ years in the industry,
-                  we've served 50,000+ satisfied customers and delivered 30+
+                  we've served 5,000+ satisfied customers and delivered 30+
                   successful projects that speak for themselves.
                 </p>
 

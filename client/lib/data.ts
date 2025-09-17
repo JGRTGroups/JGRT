@@ -36,7 +36,7 @@ export const projects: Project[] = [
         location: "Mangadu",
         area: "3.5 Acre",
         units: "1",
-        rate: "3500/-Sqft",
+        rate: "@Market Price",
         plotSizes: "600-1500",
         image: "Plot1.jpg"
     },
@@ -45,7 +45,7 @@ export const projects: Project[] = [
         location: "Kozhimahikaram",
         area: "1 Acre",
         units: "N/A",
-        rate: "3200/-Sqft",
+        rate: "@Market Price",
         plotSizes: "650-1100",
         image: "Plot2.jpg"
     },
@@ -54,16 +54,16 @@ export const projects: Project[] = [
         location: "Mangadu Main Road",
         area: "2 Acre",
         units: "30",
-        rate: "N/A",
+        rate: "@Market Price",
         plotSizes: "1200-2400",
         image: "Plot3.jpeg"
     },
     {
-        name: "Mahalakshminagar",
+        name: "Maruthi Nagar Anex",
         location: "Mangadu Main Road",
         area: "2 Acre",
         units: "30",
-        rate: "N/A",
+        rate: "@Market Price",
         plotSizes: "1200-2400",
         image: "Plot3.jpeg"
     },
