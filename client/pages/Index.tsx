@@ -382,7 +382,7 @@ export default function Index() {
                 {[
                   { number: "30", label: "Projects" },
                   { number: "20", label: "Years of Experience" },
-                  { number: "50k", label: "Happy Customers" },
+                  { number: "5000", label: "Happy Customers" },
                 ].map((stat, index) => (
                   <div
                     key={index}
