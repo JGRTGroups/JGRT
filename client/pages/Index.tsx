@@ -333,14 +333,14 @@ export default function Index() {
                 "When I founded JGRT Group over two decades ago, my vision was
                 simple – to create buildings and plots that stand not just as
                 structures, but as legacies of trust, quality, and innovation.
-                Today, seeing our journey of 20+ years, 50,000+ happy customers,
+                Today, seeing our journey of 20+ years, 5,000+ happy customers,
                 and over 30 landmark projects, I feel proud that our commitment
                 has never wavered.
                 <br />
                 <br />
                 Our success is not measured merely in numbers, but in the smiles
                 of our clients, the strength of our partnerships, and the value
-                we bring to communities. At JGRt, we believe in continuous
+                we bring to communities. At JGRT, we believe in continuous
                 learning, adapting, and pushing boundaries to set new benchmarks
                 in the building industry.
                 <br />
