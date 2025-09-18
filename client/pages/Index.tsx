@@ -810,7 +810,7 @@ export default function Index() {
             <div className="space-y-4">
               <div className="w-12 sm:w-16 h-12 sm:h-16 mx-auto"></div>
               <h3 className="text-lg sm:text-xl font-bold font-encode text-black">
-                JGRT GROUPS
+                JGRT GROUP
               </h3>
             </div>
 
@@ -888,7 +888,7 @@ export default function Index() {
                   : "translate-y-5 opacity-0"
               }`}
             >
-              <p>© 2024 JGRT Groups. All rights reserved.</p>
+              <p>© 2024 JGRT Group. All rights reserved.</p>
             </div>
           </div>
         </div>

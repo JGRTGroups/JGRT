@@ -187,7 +187,7 @@ const ContactUs: React.FC = () => {
                     </button>
                     <button
                       onClick={() =>
-                        (window.location.href = "mailto:jgrtgroups@gmail.com")
+                        (window.location.href = "mailto:jgrtgroup@gmail.com")
                       }
                       className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 rounded-full shadow-lg transition-all duration-200 text-sm sm:text-base hover:shadow-xl transform hover:scale-105 active:scale-95 w-full max-w-xs text-center break-all sm:break-normal"
                     >
@@ -195,7 +195,7 @@ const ContactUs: React.FC = () => {
                       <span className="hidden sm:inline">Email: </span>
                       <span className="sm:hidden">✉️ </span>
                       <span className="text-xs sm:text-sm md:text-base">
-                        jgrtgroups@gmail.com
+                        jgrtgroup@gmail.com
                       </span>
                     </button>
                   </div>
